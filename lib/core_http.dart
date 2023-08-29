@@ -175,7 +175,11 @@ class CoreHttpImplement implements CoreHttp {
       );
       if ([200, 404].contains(response.statusCode)) {
         //log(response.data);
-        return jsonDecode(response.data);
+        try {
+          return jsonDecode(response.data);
+        } on FormatException catch (e) {
+          return response.data;
+        }
       }
       throw ServerException();
     } catch (e) {
